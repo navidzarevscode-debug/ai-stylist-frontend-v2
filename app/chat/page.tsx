@@ -25,9 +25,9 @@ interface FullProductDetails {
   brand?: string;
   category?: string;
   color?: string;
-  gender?: string;
-  season?: string;
-  occasion?: string;
+  gender?: string | null;
+  season?: string | null;
+  occasion?: string | null;
   material?: string;
 }
 
