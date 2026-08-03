@@ -1,61 +1,135 @@
-export const API_URL = "https://app-python-xvxv0.apps.frk1.abrhapaas.com";
+export const API_URL =
+  "https://app-python-xvxv0.apps.frk1.abrhapaas.com";
 
-function buildInternalUrl(path: string) {
-  return `${API_URL}${path}`;
-}
+export type ProductImage = {
+  id: number;
+  image_url: string;
+  is_main: boolean;
+  sort_order: number;
+};
 
-export async function getProducts(filters?: {
+export type ApiProduct = {
+  id: number;
+  name: string;
+  brand: string;
+  category: string;
+  gender?: string | null;
+  season?: string | null;
+  occasion?: string | null;
+  price: number;
+  stock: number;
+  is_featured: boolean;
+  images: ProductImage[];
+};
+
+export type ProductFilters = {
   category?: string;
   occasion?: string;
   season?: string;
   search?: string;
-}) {
-  // اگه جستجو داشته باشیم، از اندپوینت اختصاصی جستجو استفاده می‌کنیم
-  if (filters?.search && filters.search.trim().length > 0) {
+};
+
+function buildInternalUrl(path: string): string {
+  const normalizedBaseUrl = API_URL.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  return `${normalizedBaseUrl}${normalizedPath}`;
+}
+
+export async function getProducts(
+  filters?: ProductFilters
+): Promise<ApiProduct[]> {
+  if (filters?.search?.trim()) {
     const params = new URLSearchParams();
+
     params.set("query", filters.search.trim());
 
-    const url = `${buildInternalUrl("/products/search")}?${params.toString()}`;
-    const response = await fetch(url, { cache: "no-store" });
+    const url = `${buildInternalUrl(
+      "/products/search"
+    )}?${params.toString()}`;
+
+    const response = await fetch(url, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
-      throw new Error("خطا در جستجوی محصولات");
+      throw new Error(
+        `خطا در جستجوی محصولات؛ کد پاسخ: ${response.status}`
+      );
     }
 
-    return response.json();
+    return (await response.json()) as ApiProduct[];
   }
 
   const params = new URLSearchParams();
 
-  if (filters?.category) params.set("category", filters.category);
-  if (filters?.occasion) params.set("occasion", filters.occasion);
-  if (filters?.season) params.set("season", filters.season);
+  if (filters?.category) {
+    params.set("category", filters.category);
+  }
+
+  if (filters?.occasion) {
+    params.set("occasion", filters.occasion);
+  }
+
+  if (filters?.season) {
+    params.set("season", filters.season);
+  }
 
   const query = params.toString();
-  const url = query ? `${buildInternalUrl("/products/")}?${query}` : buildInternalUrl("/products/");
 
-  const response = await fetch(url, { cache: "no-store" });
+  const url = query
+    ? `${buildInternalUrl("/products/")}?${query}`
+    : buildInternalUrl("/products/");
 
-  if (!response.ok) {
-    throw new Error("خطا در دریافت محصولات");
-  }
-
-  return response.json();
-}
-
-export async function getProduct(id: string | number) {
-  const url = buildInternalUrl(`/products/${id}`);
-  const response = await fetch(url, { cache: "no-store" });
+  const response = await fetch(url, {
+    cache: "no-store",
+  });
 
   if (!response.ok) {
-    if (response.status === 404) return null;
-    throw new Error("خطا در دریافت محصول");
+    throw new Error(
+      `خطا در دریافت محصولات؛ کد پاسخ: ${response.status}`
+    );
   }
 
-  return response.json();
+  return (await response.json()) as ApiProduct[];
 }
 
-export function getImageUrl(path?: string) {
-  if (!path) return undefined;
-  return `${API_URL}${path}`;
+export async function getProduct(
+  id: string | number
+): Promise<ApiProduct | null> {
+  const safeId = encodeURIComponent(String(id));
+  const url = buildInternalUrl(`/products/${safeId}`);
+
+  const response = await fetch(url, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null;
+    }
+
+    throw new Error(
+      `خطا در دریافت محصول؛ کد پاسخ: ${response.status}`
+    );
+  }
+
+  return (await response.json()) as ApiProduct;
+}
+
+export function getImageUrl(
+  path?: string | null
+): string | undefined {
+  if (!path) {
+    return undefined;
+  }
+
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+
+  const normalizedBaseUrl = API_URL.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  return `${normalizedBaseUrl}${normalizedPath}`;
 }

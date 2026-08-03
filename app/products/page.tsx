@@ -1,73 +1,120 @@
 "use client";
-// force rebuild v2
 
-import { Suspense, useEffect, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/home/ProductCard";
-import { getProducts, getImageUrl } from "@/services/api";
+import {
+  getImageUrl,
+  getProducts,
+  type ApiProduct,
+} from "@/services/api";
 import { categories } from "@/lib/categories";
 
-type ProductImage = {
-  id: number;
-  image_url: string;
-  is_main: boolean;
-  sort_order: number;
-};
-
-type ApiProduct = {
-  id: number;
-  name: string;
-  brand: string;
-  category: string;
-  price: number;
-  stock: number;
-  is_featured: boolean;
-  images: ProductImage[];
-};
-
 const SEASON_LABELS: Record<string, string> = {
-  "تابستان": "لباس‌های تابستانی",
-  "بهار": "لباس‌های بهاره",
-  "پاییز": "لباس‌های پاییزه",
-  "زمستان": "لباس‌های زمستانی",
+  تابستان: "لباس‌های تابستانی",
+  بهار: "لباس‌های بهاره",
+  پاییز: "لباس‌های پاییزه",
+  زمستان: "لباس‌های زمستانی",
 };
 
 function ProductsPageContent() {
   const searchParams = useSearchParams();
-  const category = searchParams.get("category") ?? undefined;
-  const occasion = searchParams.get("occasion") ?? undefined;
-  const season = searchParams.get("season") ?? undefined;
-  const search = searchParams.get("search") ?? undefined;
-  const featured = searchParams.get("featured") === "true";
 
-  const [products, setProducts] = useState<ApiProduct[]>([]);
+  const category =
+    searchParams.get("category") ?? undefined;
+
+  const occasion =
+    searchParams.get("occasion") ?? undefined;
+
+  const season =
+    searchParams.get("season") ?? undefined;
+
+  const search =
+    searchParams.get("search") ?? undefined;
+
+  const featured =
+    searchParams.get("featured") === "true";
+
+  const [products, setProducts] = useState<
+    ApiProduct[]
+  >([]);
+
   const [loading, setLoading] = useState(true);
 
   const activeCategory = categories.find(
-    (c) =>
-      (c.filterType === "category" && c.value === category) ||
-      (c.filterType === "occasion" && c.value === occasion)
+    (item) =>
+      (item.filterType === "category" &&
+        item.value === category) ||
+      (item.filterType === "occasion" &&
+        item.value === occasion)
   );
 
   useEffect(() => {
+    let isCancelled = false;
+
     setLoading(true);
-    getProducts({ category, occasion, season, search })
-      .then((data: ApiProduct[]) =>
-        setProducts(featured ? data.filter((p) => p.is_featured) : data)
-      )
-      .finally(() => setLoading(false));
-  }, [category, occasion, season, search, featured]);
+
+    getProducts({
+      category,
+      occasion,
+      season,
+      search,
+    })
+      .then((data) => {
+        if (isCancelled) {
+          return;
+        }
+
+        const filteredProducts = featured
+          ? data.filter(
+              (product) => product.is_featured
+            )
+          : data;
+
+        setProducts(filteredProducts);
+      })
+      .catch((error: unknown) => {
+        console.error(
+          "خطا در دریافت محصولات:",
+          error
+        );
+
+        if (!isCancelled) {
+          setProducts([]);
+        }
+      })
+      .finally(() => {
+        if (!isCancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [
+    category,
+    occasion,
+    season,
+    search,
+    featured,
+  ]);
 
   const pageTitle = search
     ? `نتایج جستجو برای «${search}»`
     : featured
-    ? "تخفیف‌های ویژه"
-    : season
-    ? SEASON_LABELS[season] ?? `محصولات: ${season}`
-    : category || occasion
-    ? `محصولات: ${category || occasion}`
-    : undefined;
+      ? "تخفیف‌های ویژه"
+      : season
+        ? (SEASON_LABELS[season] ??
+          `محصولات: ${season}`)
+        : category || occasion
+          ? `محصولات: ${category || occasion}`
+          : undefined;
 
   return (
     <main className="max-w-7xl mx-auto p-6 sm:p-10 min-h-screen bg-white dark:bg-neutral-950 transition-colors">
@@ -100,16 +147,22 @@ function ProductsPageContent() {
       )}
 
       {loading ? (
-        <p className="text-neutral-500 dark:text-neutral-400">در حال بارگذاری...</p>
+        <p className="text-neutral-500 dark:text-neutral-400">
+          در حال بارگذاری...
+        </p>
       ) : products.length === 0 ? (
         <p className="text-neutral-500 dark:text-neutral-400">
-          {search ? "محصولی با این مشخصات پیدا نشد." : "محصولی در این دسته پیدا نشد."}
+          {search
+            ? "محصولی با این مشخصات پیدا نشد."
+            : "محصولی در این دسته پیدا نشد."}
         </p>
       ) : (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2 sm:gap-3">
           {products.map((product) => {
             const mainImage =
-              product.images?.find((img) => img.is_main) ?? product.images?.[0];
+              product.images?.find(
+                (image) => image.is_main
+              ) ?? product.images?.[0];
 
             return (
               <ProductCard
@@ -118,7 +171,9 @@ function ProductsPageContent() {
                 title={product.name}
                 brand={product.brand}
                 price={`${product.price.toLocaleString()} تومان`}
-                image={getImageUrl(mainImage?.image_url)}
+                image={getImageUrl(
+                  mainImage?.image_url
+                )}
               />
             );
           })}

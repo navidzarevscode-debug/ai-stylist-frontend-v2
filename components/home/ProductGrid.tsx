@@ -1,26 +1,23 @@
 import Link from "next/link";
+import {
+  ArrowLeft,
+  Dumbbell,
+  PartyPopper,
+  Sun,
+  type LucideIcon,
+} from "lucide-react";
 import ProductCard from "./ProductCard";
-import { getProducts, getImageUrl } from "@/services/api";
-import { ArrowLeft, Sun, PartyPopper, Dumbbell, LucideIcon } from "lucide-react";
+import {
+  getImageUrl,
+  getProducts,
+  type ApiProduct,
+} from "@/services/api";
 
-type ProductImage = {
-  id: number;
-  image_url: string;
-  is_main: boolean;
-  sort_order: number;
-};
-
-type ApiProduct = {
-  id: number;
-  name: string;
-  brand: string;
-  category: string;
-  season?: string;
-  occasion?: string;
-  price: number;
-  stock: number;
-  is_featured: boolean;
-  images: ProductImage[];
+type FeaturedSectionProps = {
+  title: string;
+  subtitle: string;
+  products: ApiProduct[];
+  href: string;
 };
 
 function FeaturedSection({
@@ -28,13 +25,10 @@ function FeaturedSection({
   subtitle,
   products,
   href,
-}: {
-  title: string;
-  subtitle: string;
-  products: ApiProduct[];
-  href: string;
-}) {
-  if (products.length === 0) return null;
+}: FeaturedSectionProps) {
+  if (products.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-5 transition-colors bg-gradient-to-b from-slate-700 to-slate-800 dark:from-amber-50 dark:to-orange-50">
@@ -42,15 +36,18 @@ function FeaturedSection({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="w-1 h-6 rounded-full bg-red-500 block" />
+
             <div>
               <h2 className="text-lg font-extrabold text-white dark:text-neutral-900">
                 {title}
               </h2>
+
               <p className="text-xs mt-0.5 text-slate-400 dark:text-neutral-500">
                 {subtitle}
               </p>
             </div>
           </div>
+
           <Link
             href={href}
             className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors border-slate-500 text-slate-300 hover:bg-slate-600 dark:border-neutral-300 dark:text-neutral-600 dark:hover:bg-neutral-100"
@@ -63,17 +60,24 @@ function FeaturedSection({
         <div className="flex gap-3 overflow-x-auto pb-3 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-white/40">
           {products.map((product) => {
             const mainImage =
-              product.images.find((img) => img.is_main) ?? product.images[0];
+              product.images?.find(
+                (image) => image.is_main
+              ) ?? product.images?.[0];
 
             return (
-              <div key={product.id} className="shrink-0 w-24 sm:w-40">
+              <div
+                key={product.id}
+                className="shrink-0 w-24 sm:w-40"
+              >
                 <ProductCard
                   id={product.id}
                   title={product.name}
                   brand={product.brand}
                   price={`${product.price.toLocaleString()} تومان`}
-                  image={getImageUrl(mainImage?.image_url)}
-                  dark={true}
+                  image={getImageUrl(
+                    mainImage?.image_url
+                  )}
+                  dark
                 />
               </div>
             );
@@ -84,9 +88,20 @@ function FeaturedSection({
   );
 }
 
+type CategoryVariant =
+  | "summer"
+  | "party"
+  | "sport";
+
+type CategoryStyle = {
+  icon: LucideIcon;
+  ring: string;
+  chip: string;
+};
+
 const CATEGORY_STYLES: Record<
-  string,
-  { icon: LucideIcon; ring: string; chip: string }
+  CategoryVariant,
+  CategoryStyle
 > = {
   summer: {
     icon: Sun,
@@ -105,20 +120,24 @@ const CATEGORY_STYLES: Record<
   },
 };
 
+type CategoryBoxSectionProps = {
+  variant: CategoryVariant;
+  title: string;
+  subtitle: string;
+  products: ApiProduct[];
+  href: string;
+};
+
 function CategoryBoxSection({
   variant,
   title,
   subtitle,
   products,
   href,
-}: {
-  variant: "summer" | "party" | "sport";
-  title: string;
-  subtitle: string;
-  products: ApiProduct[];
-  href: string;
-}) {
-  if (products.length === 0) return null;
+}: CategoryBoxSectionProps) {
+  if (products.length === 0) {
+    return null;
+  }
 
   const style = CATEGORY_STYLES[variant];
   const Icon = style.icon;
@@ -130,18 +149,23 @@ function CategoryBoxSection({
       >
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${style.chip}`}>
+            <span
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl ${style.chip}`}
+            >
               <Icon size={18} />
             </span>
+
             <div>
               <h2 className="text-base sm:text-lg font-extrabold text-neutral-900 dark:text-white">
                 {title}
               </h2>
+
               <p className="text-xs mt-0.5 text-neutral-400 dark:text-neutral-500">
                 {subtitle}
               </p>
             </div>
           </div>
+
           <Link
             href={href}
             className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-200 text-neutral-600 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 transition-colors shrink-0"
@@ -154,16 +178,23 @@ function CategoryBoxSection({
         <div className="flex gap-3 overflow-x-auto pb-1 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700">
           {products.map((product) => {
             const mainImage =
-              product.images.find((img) => img.is_main) ?? product.images[0];
+              product.images?.find(
+                (image) => image.is_main
+              ) ?? product.images?.[0];
 
             return (
-              <div key={product.id} className="shrink-0 w-24 sm:w-40">
+              <div
+                key={product.id}
+                className="shrink-0 w-24 sm:w-40"
+              >
                 <ProductCard
                   id={product.id}
                   title={product.name}
                   brand={product.brand}
                   price={`${product.price.toLocaleString()} تومان`}
-                  image={getImageUrl(mainImage?.image_url)}
+                  image={getImageUrl(
+                    mainImage?.image_url
+                  )}
                 />
               </div>
             );
@@ -179,8 +210,11 @@ export default async function ProductGrid() {
 
   try {
     products = await getProducts();
-  } catch (error) {
-    console.error(error);
+  } catch (error: unknown) {
+    console.error(
+      "خطا در دریافت محصولات صفحه اصلی:",
+      error
+    );
   }
 
   if (products.length === 0) {
@@ -191,18 +225,26 @@ export default async function ProductGrid() {
     );
   }
 
-  // "تخفیف‌های ویژه" فقط محصولاتی رو نشون می‌ده که توی ادمین علامت "ویژه" خوردن
-  const discountedProducts = products.filter((p) => p.is_featured);
+  const discountedProducts = products.filter(
+    (product) => product.is_featured
+  );
 
-  // دسته‌بندی‌های موضوعی برای پایین صفحه‌ی خانه - هرکدوم به صفحه‌ی محصولات فیلترشده لینک می‌شن
   const summerProducts = products
-    .filter((p) => (p.season ?? "").includes("تابستان"))
+    .filter((product) =>
+      (product.season ?? "").includes("تابستان")
+    )
     .slice(0, 10);
+
   const partyProducts = products
-    .filter((p) => (p.occasion ?? "").includes("مهمانی"))
+    .filter((product) =>
+      (product.occasion ?? "").includes("مهمانی")
+    )
     .slice(0, 10);
+
   const sportProducts = products
-    .filter((p) => (p.occasion ?? "").includes("اسپرت"))
+    .filter((product) =>
+      (product.occasion ?? "").includes("اسپرت")
+    )
     .slice(0, 10);
 
   return (

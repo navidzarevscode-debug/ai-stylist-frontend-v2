@@ -41,11 +41,24 @@ export default function OutfitTryOnModal({
 
   async function handleSubmit() {
     if (!file) return;
+
+    const uniqueProductIds = Array.from(new Set(productIds));
+
+    if (uniqueProductIds.length < 2) {
+      setError("برای پرو ست کامل باید حداقل دو محصول متفاوت انتخاب شده باشد.");
+      return;
+    }
+
+    if (uniqueProductIds.length > 3) {
+      setError("در هر بار پرو مجازی حداکثر سه محصول پشتیبانی می‌شود.");
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
     try {
-      const url = await tryOnOutfit(productIds, file);
+      const url = await tryOnOutfit(uniqueProductIds, file);
       setResultUrl(url);
     } catch (err) {
       console.error(err);
