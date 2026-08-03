@@ -13,12 +13,21 @@ export type ApiProduct = {
   name: string;
   brand: string;
   category: string;
+
+  color: string;
+  size: string;
+  material: string;
+
   gender?: string | null;
   season?: string | null;
   occasion?: string | null;
+
   price: number;
   stock: number;
+
+  is_active: boolean;
   is_featured: boolean;
+
   images: ProductImage[];
 };
 
