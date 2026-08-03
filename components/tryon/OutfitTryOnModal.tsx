@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { X, Upload, Download, Camera, Image as ImageIcon, Sparkles } from "lucide-react";
-import { tryOnOutfit } from "@/services/tryon";
+import { tryOnOutfit, TryOnOutfitProgress } from "@/services/tryon";
 
 interface OutfitTryOnModalProps {
   productIds: number[];
@@ -22,6 +22,7 @@ export default function OutfitTryOnModal({
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [showUploadOptions, setShowUploadOptions] = useState(false);
+  const [progress, setProgress] = useState<TryOnOutfitProgress | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -56,9 +57,10 @@ export default function OutfitTryOnModal({
 
     setLoading(true);
     setError(null);
+    setProgress(null);
 
     try {
-      const url = await tryOnOutfit(uniqueProductIds, file);
+      const url = await tryOnOutfit(uniqueProductIds, file, setProgress);
       setResultUrl(url);
     } catch (err) {
       console.error(err);
@@ -69,6 +71,7 @@ export default function OutfitTryOnModal({
       setError(message);
     } finally {
       setLoading(false);
+      setProgress(null);
     }
   }
 
@@ -229,9 +232,35 @@ export default function OutfitTryOnModal({
               </button>
 
               {loading && (
-                <p className="text-xs text-center text-neutral-400 dark:text-neutral-500">
-                  ممکنه چند ثانیه طول بکشه...
-                </p>
+                <div className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-800/60 dark:to-neutral-900/60 p-3 flex flex-col gap-1.5 max-h-40 overflow-y-auto">
+                  {progress && progress.logs.length > 0 ? (
+                    progress.logs.map((line, idx) => {
+                      const isLast = idx === progress.logs.length - 1;
+                      const isDone = line.startsWith("✅") || line.startsWith("✨") || line.startsWith("🎉");
+                      const isError = line.startsWith("❌");
+                      return (
+                        <p
+                          key={idx}
+                          className={`text-[11px] leading-5 transition-opacity ${
+                            isError
+                              ? "text-red-500 font-semibold"
+                              : isDone
+                              ? "text-emerald-600 dark:text-emerald-400 font-medium"
+                              : isLast
+                              ? "text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500 font-semibold animate-pulse"
+                              : "text-neutral-400 dark:text-neutral-500"
+                          }`}
+                        >
+                          {line}
+                        </p>
+                      );
+                    })
+                  ) : (
+                    <p className="text-[11px] leading-5 text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500 font-semibold animate-pulse">
+                      ✨ در حال آماده‌سازی...
+                    </p>
+                  )}
+                </div>
               )}
             </>
           )}
