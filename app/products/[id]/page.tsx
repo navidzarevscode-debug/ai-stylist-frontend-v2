@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProduct, getImageUrl } from "@/services/api";
+import { getProduct, getImageUrl, type ApiProduct } from "@/services/api";
 import ProductGallery from "@/components/product/ProductGallery";
 import TryOnTrigger from "@/components/tryon/TryOnTrigger";
 import StyleMatchTrigger from "@/components/StyleMatchTrigger";
@@ -10,23 +10,6 @@ type ProductImage = {
   image_url: string;
   is_main: boolean;
   sort_order: number;
-};
-
-type Product = {
-  id: number;
-  name: string;
-  brand: string;
-  category: string;
-  color: string;
-  size: string;
-  material: string;
-  gender: string;
-  season: string;
-  occasion: string;
-  price: number;
-  stock: number;
-  is_active: boolean;
-  images: ProductImage[];
 };
 
 function Spec({ label, value }: { label: string; value: string }) {
@@ -46,7 +29,7 @@ export default async function ProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product: Product | null = await getProduct(id);
+  const product: ApiProduct | null = await getProduct(id);
 
   if (!product) {
     notFound();
