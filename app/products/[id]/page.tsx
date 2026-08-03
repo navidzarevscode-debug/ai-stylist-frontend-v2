@@ -12,12 +12,18 @@ type ProductImage = {
   sort_order: number;
 };
 
-function Spec({ label, value }: { label: string; value: string }) {
+function Spec({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | null;
+}) {
   return (
     <div className="rounded-xl border border-neutral-100 bg-neutral-50 px-3 py-2.5 text-center dark:border-neutral-800 dark:bg-neutral-900">
       <p className="text-[11px] text-neutral-400 dark:text-neutral-500">{label}</p>
       <p className="mt-0.5 text-sm font-semibold text-neutral-900 dark:text-white">
-        {value}
+        {value ?? "-"}
       </p>
     </div>
   );
