@@ -24,7 +24,7 @@ export default function Navbar() {
   const dark = theme === "dark";
 
   const { user, isLoggedIn } = useAuth();
-  const { totalCount } = useCart();
+  const { unseenCount } = useCart();
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -148,9 +148,9 @@ export default function Navbar() {
           >
             <ShoppingBag size={18} className="sm:hidden" />
             <ShoppingBag size={20} className="hidden sm:block" />
-            {totalCount > 0 && (
+            {unseenCount > 0 && (
               <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                {totalCount}
+                {unseenCount > 9 ? "9+" : unseenCount}
               </span>
             )}
           </Link>

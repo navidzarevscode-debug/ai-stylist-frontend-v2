@@ -227,54 +227,58 @@ function AIActionCards() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-3 sm:gap-4">
         <Link
           href="/chat"
-          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 sm:p-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+          className="group relative flex flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-3 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:block sm:rounded-3xl sm:p-6"
         >
           <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
 
-          <span className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-            <Wand2 size={20} />
+          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-12 sm:w-12 sm:rounded-2xl">
+            <Wand2 size={18} className="sm:hidden" />
+            <Wand2 size={20} className="hidden sm:block" />
           </span>
 
-          <h3 className="relative mt-3 sm:mt-4 text-sm sm:text-base font-extrabold leading-6">
-            نمی‌دونی چی بپوشی؟
-            <br />
-            کلیک کن
-          </h3>
+          <div className="relative min-w-0 flex-1 sm:mt-4">
+            <h3 className="truncate text-xs font-extrabold leading-5 sm:whitespace-normal sm:text-base sm:leading-6">
+              نمی‌دونی چی بپوشی؟
+            </h3>
 
-          <p className="relative mt-1.5 text-[11px] sm:text-xs text-white/85 leading-5">
-            بهترین پیشنهادها با توجه به اطلاعات شخصی شما و ست‌هایی متناسب با جدیدترین‌های مد روز
-          </p>
+            <p className="relative hidden text-xs text-white/85 sm:mt-1.5 sm:block sm:leading-5">
+              بهترین پیشنهادها با توجه به اطلاعات شخصی شما و ست‌هایی متناسب با جدیدترین‌های مد روز
+            </p>
 
-          <span className="relative mt-3 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold">
-            شروع کن
-            <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
-          </span>
+            <span className="relative mt-0.5 inline-flex items-center gap-1 text-[10px] font-bold sm:mt-3 sm:text-xs">
+              شروع کن
+              <ArrowLeft size={12} className="transition-transform group-hover:-translate-x-1" />
+            </span>
+          </div>
         </Link>
 
         <Link
           href="/products"
-          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 sm:p-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+          className="group relative flex flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-3 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:block sm:rounded-3xl sm:p-6"
         >
           <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
 
-          <span className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-            <Camera size={20} />
+          <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-12 sm:w-12 sm:rounded-2xl">
+            <Camera size={18} className="sm:hidden" />
+            <Camera size={20} className="hidden sm:block" />
           </span>
 
-          <h3 className="relative mt-3 sm:mt-4 text-sm sm:text-base font-extrabold leading-6">
-            حوصله نداری بیای مغازه؟
-          </h3>
+          <div className="relative min-w-0 flex-1 sm:mt-4">
+            <h3 className="truncate text-xs font-extrabold leading-5 sm:whitespace-normal sm:text-base sm:leading-6">
+              حوصله نداری بیای مغازه؟
+            </h3>
 
-          <p className="relative mt-1.5 text-[11px] sm:text-xs text-white/85 leading-5">
-            لباس رو تن خودت ببین؛ فقط کافیه لباست رو انتخاب کنی و عکست رو آپلود کنی
-          </p>
+            <p className="relative hidden text-xs text-white/85 sm:mt-1.5 sm:block sm:leading-5">
+              لباس رو تن خودت ببین؛ فقط کافیه لباست رو انتخاب کنی و عکست رو آپلود کنی
+            </p>
 
-          <span className="relative mt-3 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold">
-            امتحان کن
-            <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
-          </span>
+            <span className="relative mt-0.5 inline-flex items-center gap-1 text-[10px] font-bold sm:mt-3 sm:text-xs">
+              امتحان کن
+              <ArrowLeft size={12} className="transition-transform group-hover:-translate-x-1" />
+            </span>
+          </div>
         </Link>
       </div>
     </section>

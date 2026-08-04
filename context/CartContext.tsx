@@ -33,6 +33,12 @@ interface CartContextType {
   clearCart: () => Promise<void>;
   totalPrice: number;
   totalCount: number;
+  /** تعداد آیتم‌هایی که از آخرین باری که کاربر وارد صفحه‌ی سبد خرید شده،
+   *  اضافه شدن. مثل عدد نوتیفیکیشن گوشی - با اضافه شدن محصول زیاد می‌شه و
+   *  با ورود به صفحه‌ی سبد خرید صفر می‌شه. */
+  unseenCount: number;
+  /** باید موقع ورود به صفحه‌ی سبد خرید صدا زده بشه تا عدد نوتیف صفر بشه. */
+  markCartSeen: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -70,6 +76,7 @@ function authHeaders(): Record<string, string> {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [unseenCount, setUnseenCount] = useState(0);
 
   const refresh = useCallback(async () => {
     const token = getToken();
@@ -106,11 +113,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ product_id: product.id, quantity: 1 }),
       });
 
-      if (res.ok) await refresh();
+      if (res.ok) {
+        await refresh();
+        setUnseenCount((c) => c + 1);
+      }
       return res.ok;
     },
     [refresh]
   );
+
+  const markCartSeen = useCallback(() => {
+    setUnseenCount(0);
+  }, []);
 
   const removeFromCart = useCallback(
     async (id: number) => {
@@ -158,6 +172,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
+  // اگه به هر دلیلی (حذف کالا و ...) تعداد واقعی سبد از عدد "دیده‌نشده" کمتر
+  // بشه، عدد نوتیف رو با همون هماهنگ می‌کنیم که هیچ‌وقت از تعداد واقعی بیشتر نشه.
+  useEffect(() => {
+    setUnseenCount((c) => Math.min(c, totalCount));
+  }, [totalCount]);
+
   return (
     <CartContext.Provider
       value={{
@@ -168,6 +188,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         clearCart,
         totalPrice,
         totalCount,
+        unseenCount,
+        markCartSeen,
       }}
     >
       {children}

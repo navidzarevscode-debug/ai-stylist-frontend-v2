@@ -677,7 +677,7 @@ function ChatPageContent() {
   }
 
   return (
-    <div className={`flex h-[100dvh] w-full flex-col overflow-hidden transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
+    <div className={`flex h-full w-full flex-col overflow-hidden transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
       {/* Header */}
       <div
         className={`shrink-0 border-b px-3 py-3 backdrop-blur transition-colors sm:px-8 sm:py-4 ${

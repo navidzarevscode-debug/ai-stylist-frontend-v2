@@ -1,14 +1,21 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 export default function CartPage() {
-  const { items, removeFromCart, updateQuantity, totalPrice, totalCount } =
+  const { items, removeFromCart, updateQuantity, totalPrice, totalCount, markCartSeen } =
     useCart();
   const { theme } = useTheme();
   const dark = theme === "dark";
+
+  // با ورود به صفحه‌ی سبد خرید، عدد نوتیف روی آیکون سبد (بالای نوبار) صفر
+  // می‌شه - دقیقاً مثل نوتیفیکیشن گوشی که با باز کردن اپ پاک می‌شه.
+  useEffect(() => {
+    markCartSeen();
+  }, [markCartSeen]);
 
   if (items.length === 0) {
     return (
