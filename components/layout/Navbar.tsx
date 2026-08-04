@@ -162,7 +162,7 @@ export default function Navbar() {
       <div className={`border-t ${dark ? "border-neutral-800" : "border-neutral-100"}`}>
         <div className="max-w-7xl mx-auto px-4">
           <div
-            className="w-fit flex items-center h-11 gap-5 sm:gap-8 overflow-x-auto"
+            className="w-fit flex items-center h-11 gap-5 sm:gap-8"
           >
             {navLinks.map((link) => {
             const isActive = pathname === link.href;

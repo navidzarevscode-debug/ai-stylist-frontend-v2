@@ -31,18 +31,18 @@ function FeaturedSection({
   }
 
   return (
-    <section className="py-5 transition-colors bg-gradient-to-b from-slate-700 to-slate-800 dark:from-amber-50 dark:to-orange-50">
+    <section className="py-5 transition-colors bg-gradient-to-b from-slate-700 to-slate-800 dark:from-neutral-900 dark:to-neutral-950">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="w-1 h-6 rounded-full bg-red-500 block" />
 
             <div>
-              <h2 className="text-lg font-extrabold text-white dark:text-neutral-900">
+              <h2 className="text-lg font-extrabold text-white">
                 {title}
               </h2>
 
-              <p className="text-xs mt-0.5 text-slate-400 dark:text-neutral-500">
+              <p className="text-xs mt-0.5 text-slate-400">
                 {subtitle}
               </p>
             </div>
@@ -50,7 +50,7 @@ function FeaturedSection({
 
           <Link
             href={href}
-            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors border-slate-500 text-slate-300 hover:bg-slate-600 dark:border-neutral-300 dark:text-neutral-600 dark:hover:bg-neutral-100"
+            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border transition-colors border-slate-500 text-slate-300 hover:bg-slate-600"
           >
             مشاهده همه
             <ArrowLeft size={13} />

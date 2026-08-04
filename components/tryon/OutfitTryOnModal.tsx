@@ -135,7 +135,7 @@ export default function OutfitTryOnModal({
           </div>
 
           {!resultUrl && loading && (
-            <div className="flex flex-col items-center gap-4 py-4">
+            <div className="flex min-h-56 flex-col items-center justify-center gap-4">
               {preview && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img

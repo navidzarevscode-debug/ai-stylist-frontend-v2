@@ -677,10 +677,10 @@ function ChatPageContent() {
   }
 
   return (
-    <div className={`min-h-[100dvh] w-full transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
+    <div className={`flex h-[100dvh] w-full flex-col overflow-hidden transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
       {/* Header */}
       <div
-        className={`sticky top-0 z-10 border-b px-3 py-3 backdrop-blur transition-colors sm:px-8 sm:py-4 ${
+        className={`shrink-0 border-b px-3 py-3 backdrop-blur transition-colors sm:px-8 sm:py-4 ${
           dark ? "border-neutral-800 bg-neutral-950/90" : "border-neutral-100 bg-[#FAFAF8]/90"
         }`}
       >
@@ -738,25 +738,30 @@ function ChatPageContent() {
       </div>
 
       {/* Messages */}
-      <div className="mx-auto max-w-3xl px-4 pb-40 pt-6 sm:px-8">
-        {messages.length === 0 && (
-          <div className="flex flex-col items-center gap-4 py-12 text-center sm:py-16">
-            <div className="relative">
-              <div className="absolute inset-0 -m-3 rounded-full bg-gradient-to-br from-purple-400/20 to-fuchsia-400/20 blur-xl" />
-              <AssistantAvatar dark={dark} />
+      <div className={`min-h-0 flex-1 ${messages.length === 0 ? "overflow-hidden" : "overflow-y-auto"}`}>
+        <div
+          className={`mx-auto flex max-w-3xl flex-col px-4 sm:px-8 ${
+            messages.length === 0 ? "h-full justify-center" : "pt-6 pb-6"
+          }`}
+        >
+          {messages.length === 0 && (
+            <div className="flex flex-col items-center gap-4 text-center">
+              <div className="relative">
+                <div className="absolute inset-0 -m-3 rounded-full bg-gradient-to-br from-purple-400/20 to-fuchsia-400/20 blur-xl" />
+                <AssistantAvatar dark={dark} />
+              </div>
+              <div>
+                <p className={`text-sm font-bold sm:text-base ${dark ? "text-white" : "text-neutral-900"}`}>
+                  سلام 👋 من دستیار استایل تو هستم
+                </p>
+                <p className={`mt-1.5 max-w-xs text-xs sm:text-sm ${dark ? "text-neutral-400" : "text-neutral-500"}`}>
+                  بگو دنبال چه استایلی هستی تا بهترین گزینه‌ها رو برات پیدا کنم.
+                </p>
+              </div>
             </div>
-            <div>
-              <p className={`text-sm font-bold sm:text-base ${dark ? "text-white" : "text-neutral-900"}`}>
-                سلام 👋 من دستیار استایل تو هستم
-              </p>
-              <p className={`mt-1.5 max-w-xs text-xs sm:text-sm ${dark ? "text-neutral-400" : "text-neutral-500"}`}>
-                بگو دنبال چه استایلی هستی تا بهترین گزینه‌ها رو برات پیدا کنم.
-              </p>
-            </div>
-          </div>
-        )}
+          )}
 
-        <div className="space-y-6">
+        <div className={messages.length === 0 ? "mt-6 space-y-6" : "space-y-6"}>
           {messages.map((m) =>
             m.role === "user" ? (
               <div key={m.id} className="flex flex-col items-end gap-1.5">
@@ -823,7 +828,11 @@ function ChatPageContent() {
           )}
 
           {!loading && (
-            <div className="flex flex-wrap gap-2 pr-[48px] sm:pr-[52px]">
+            <div
+              className={`flex flex-wrap gap-2 ${
+                messages.length === 0 ? "justify-center" : "pr-[48px] sm:pr-[52px]"
+              }`}
+            >
               {STARTER_PROMPTS.map((prompt) => (
                 <button
                   key={prompt}
@@ -842,11 +851,12 @@ function ChatPageContent() {
 
           <div ref={bottomRef} />
         </div>
+        </div>
       </div>
 
       {/* Input bar */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-10 border-t px-4 py-3 transition-colors sm:px-8 sm:py-4 ${
+        className={`shrink-0 border-t px-4 py-3 transition-colors sm:px-8 sm:py-4 ${
           dark ? "border-neutral-800 bg-neutral-950" : "border-neutral-100 bg-[#FAFAF8]"
         }`}
       >
