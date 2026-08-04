@@ -2,13 +2,12 @@ const BASE_URL = "https://app-python-xvxv0.apps.frk1.abrhapaas.com";
 
 const API_URL = `${BASE_URL}/tryon/`;
 const OUTFIT_API_URL = `${BASE_URL}/tryon/outfit`;
-const OUTFIT_STATUS_URL = (jobId: string) =>
-  `${BASE_URL}/tryon/outfit/status/${jobId}`;
+const JOB_STATUS_URL = (jobId: string) => `${BASE_URL}/tryon/status/${jobId}`;
 
 // فاصله‌ی بین هر بار چک کردن وضعیت job (میلی‌ثانیه)
-const OUTFIT_POLL_INTERVAL_MS = 3000;
+const POLL_INTERVAL_MS = 3000;
 // حداکثر مدت زمانی که فرانت منتظر می‌مونه تا job تموم بشه (میلی‌ثانیه)
-const OUTFIT_POLL_TIMEOUT_MS = 6 * 60 * 1000; // 6 دقیقه
+const POLL_TIMEOUT_MS = 6 * 60 * 1000; // 6 دقیقه
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -47,35 +46,84 @@ function normalizeImageUrl(url: string): string {
   return `${BASE_URL}/${url}`;
 }
 
+/**
+ * فقط آخرین خط گزارش پیشرفت (نه کل تاریخچه) — چون فرانت الان یک متن تک‌خطی
+ * و در حال تغییر نشون می‌ده، نه یک لیست.
+ */
+export type TryOnProgress = string;
+
+/**
+ * منطق مشترک polling برای هر دو حالت (تک‌محصولی و ست کامل). یک jobId می‌گیره
+ * و تا تموم شدنش صبر می‌کنه، و در هر مرحله فقط آخرین خط گزارش رو به onProgress
+ * پاس می‌ده.
+ */
+async function pollJob(
+  jobId: string,
+  onProgress?: (progress: TryOnProgress) => void
+): Promise<string> {
+  const deadline = Date.now() + POLL_TIMEOUT_MS;
+
+  while (true) {
+    if (Date.now() > deadline) {
+      throw new Error(
+        "پردازش تصویر بیش از حد انتظار طول کشید. لطفاً دوباره امتحان کنید."
+      );
+    }
+
+    await sleep(POLL_INTERVAL_MS);
+
+    const statusResponse = await fetch(JOB_STATUS_URL(jobId));
+
+    if (!statusResponse.ok) {
+      // اگه job پیدا نشد یا خطای واقعی توی پردازش رخ داد، پیام خطا رو بگیر
+      throw new Error(await extractErrorMessage(statusResponse));
+    }
+
+    const statusData = await statusResponse.json();
+    console.log("Try-on job status:", statusData);
+
+    if (onProgress && typeof statusData.current_log === "string") {
+      onProgress(statusData.current_log);
+    }
+
+    if (statusData.status === "done") {
+      return normalizeImageUrl(statusData.result_image_url);
+    }
+    // status "pending" یا "processing" → همچنان صبر کن و دوباره چک کن
+  }
+}
+
+/**
+ * امتحان تک‌محصولی. مثل امتحان ست، این هم الان به‌صورت job پس‌زمینه اجرا
+ * می‌شه و onProgress (اختیاری) در طول کار با آخرین وضعیت صدا زده می‌شه.
+ */
 export async function tryOnProduct(
   productId: number,
-  personImage: File
+  personImage: File,
+  onProgress?: (progress: TryOnProgress) => void
 ): Promise<string> {
   const formData = new FormData();
 
   formData.append("product_id", String(productId));
   formData.append("person_image", personImage);
 
-  const response = await fetch(API_URL, {
+  const startResponse = await fetch(API_URL, {
     method: "POST",
     body: formData,
   });
 
-  if (!response.ok) {
-    throw new Error(await extractErrorMessage(response));
+  if (!startResponse.ok) {
+    throw new Error(await extractErrorMessage(startResponse));
   }
 
-  const data = await response.json();
+  const startData = await startResponse.json();
+  const jobId: string | undefined = startData.job_id;
 
-  console.log("Try-on response:", data);
+  if (!jobId) {
+    throw new Error("سرور شناسه‌ی پردازش (job_id) برنگرداند");
+  }
 
-  return normalizeImageUrl(data.result_image_url);
-}
-
-export interface TryOnOutfitProgress {
-  step: number;
-  totalSteps: number;
-  logs: string[];
+  return pollJob(jobId, onProgress);
 }
 
 /**
@@ -86,12 +134,12 @@ export interface TryOnOutfitProgress {
  * ۱) یه درخواست POST می‌زنیم و فوری یه job_id می‌گیریم.
  * ۲) هر چند ثانیه وضعیتش رو چک (poll) می‌کنیم تا آماده بشه.
  *
- * onProgress اختیاریه و برای نشون‌دادن پیشرفت («لباس ۲ از ۳») استفاده می‌شه.
+ * onProgress اختیاریه و برای نشون‌دادن آخرین وضعیت (یک متن تک‌خطی) استفاده می‌شه.
  */
 export async function tryOnOutfit(
   productIds: number[],
   personImage: File,
-  onProgress?: (progress: TryOnOutfitProgress) => void
+  onProgress?: (progress: TryOnProgress) => void
 ): Promise<string> {
   const formData = new FormData();
 
@@ -117,38 +165,5 @@ export async function tryOnOutfit(
     throw new Error("سرور شناسه‌ی پردازش (job_id) برنگرداند");
   }
 
-  const deadline = Date.now() + OUTFIT_POLL_TIMEOUT_MS;
-
-  while (true) {
-    if (Date.now() > deadline) {
-      throw new Error(
-        "پردازش تصویر بیش از حد انتظار طول کشید. لطفاً دوباره امتحان کنید."
-      );
-    }
-
-    await sleep(OUTFIT_POLL_INTERVAL_MS);
-
-    const statusResponse = await fetch(OUTFIT_STATUS_URL(jobId));
-
-    if (!statusResponse.ok) {
-      // اگه job پیدا نشد یا خطای واقعی توی پردازش رخ داد، پیام خطا رو بگیر
-      throw new Error(await extractErrorMessage(statusResponse));
-    }
-
-    const statusData = await statusResponse.json();
-    console.log("Outfit job status:", statusData);
-
-    if (onProgress && typeof statusData.step === "number") {
-      onProgress({
-        step: statusData.step,
-        totalSteps: statusData.total_steps,
-        logs: Array.isArray(statusData.logs) ? statusData.logs : [],
-      });
-    }
-
-    if (statusData.status === "done") {
-      return normalizeImageUrl(statusData.result_image_url);
-    }
-    // status "pending" یا "processing" → همچنان صبر کن و دوباره چک کن
-  }
+  return pollJob(jobId, onProgress);
 }

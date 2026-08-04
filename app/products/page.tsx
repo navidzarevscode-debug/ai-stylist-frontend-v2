@@ -22,6 +22,37 @@ const SEASON_LABELS: Record<string, string> = {
   زمستان: "لباس‌های زمستانی",
 };
 
+type SortOption = "default" | "popular" | "price_desc" | "price_asc";
+
+const SORT_OPTIONS: { key: SortOption; label: string }[] = [
+  { key: "default", label: "مرتب‌سازی" },
+  { key: "popular", label: "پرفروش‌ترین" },
+  { key: "price_desc", label: "گران‌ترین" },
+  { key: "price_asc", label: "ارزان‌ترین" },
+];
+
+function sortProducts(
+  products: ApiProduct[],
+  sortBy: SortOption
+): ApiProduct[] {
+  if (sortBy === "default") return products;
+
+  const sorted = [...products];
+
+  if (sortBy === "price_desc") {
+    sorted.sort((a, b) => b.price - a.price);
+  } else if (sortBy === "price_asc") {
+    sorted.sort((a, b) => a.price - b.price);
+  } else if (sortBy === "popular") {
+    // دیتای فروش نداریم؛ محصولات ویژه رو به‌عنوان پرفروش‌ترین در نظر می‌گیریم.
+    sorted.sort(
+      (a, b) => Number(b.is_featured) - Number(a.is_featured)
+    );
+  }
+
+  return sorted;
+}
+
 function ProductsPageContent() {
   const searchParams = useSearchParams();
 
@@ -45,6 +76,7 @@ function ProductsPageContent() {
   >([]);
 
   const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const activeCategory = categories.find(
     (item) =>
@@ -106,7 +138,7 @@ function ProductsPageContent() {
   ]);
 
   const pageTitle = search
-    ? `نتایج جستجو برای «${search}»`
+    ? undefined
     : featured
       ? "تخفیف‌های ویژه"
       : season
@@ -115,6 +147,8 @@ function ProductsPageContent() {
         : category || occasion
           ? `محصولات: ${category || occasion}`
           : undefined;
+
+  const sortedProducts = sortProducts(products, sortBy);
 
   return (
     <main className="max-w-7xl mx-auto p-6 sm:p-10 min-h-screen bg-white dark:bg-neutral-950 transition-colors">
@@ -129,6 +163,26 @@ function ProductsPageContent() {
               className="w-full h-full object-cover"
             />
           </div>
+        </div>
+      ) : search ? (
+        <div className="flex items-center gap-2 mb-8 sm:mb-10 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          {SORT_OPTIONS.map((option) => {
+            const isActive = sortBy === option.key;
+            return (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => setSortBy(option.key)}
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+                  isActive
+                    ? "border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900"
+                    : "border-neutral-200 text-neutral-600 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
         </div>
       ) : pageTitle ? (
         <h1 className="text-2xl sm:text-4xl font-bold mb-8 sm:mb-10 text-neutral-900 dark:text-white">
@@ -150,7 +204,7 @@ function ProductsPageContent() {
         <p className="text-neutral-500 dark:text-neutral-400">
           در حال بارگذاری...
         </p>
-      ) : products.length === 0 ? (
+      ) : sortedProducts.length === 0 ? (
         <p className="text-neutral-500 dark:text-neutral-400">
           {search
             ? "محصولی با این مشخصات پیدا نشد."
@@ -158,7 +212,7 @@ function ProductsPageContent() {
         </p>
       ) : (
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2 sm:gap-3">
-          {products.map((product) => {
+          {sortedProducts.map((product) => {
             const mainImage =
               product.images?.find(
                 (image) => image.is_main

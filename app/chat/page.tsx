@@ -330,7 +330,8 @@ function ProductTile({
 
       <button
         onClick={() => onTryOn(product)}
-        className="flex items-center gap-1 text-[10px] font-bold rounded-full px-2.5 py-1.5 text-white bg-gradient-to-l from-purple-600 to-fuchsia-500 shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+        className="flex items-center gap-1 text-[10px] font-bold rounded-full px-2.5 py-1.5 text-white shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+        style={{ backgroundColor: "#0F766E" }}
       >
         <Sparkles size={11} className="shrink-0" />
         رو خودت امتحان کن
@@ -683,7 +684,7 @@ function ChatPageContent() {
   }
 
   return (
-    <div className={`min-h-screen w-full transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
+    <div className={`min-h-[100dvh] w-full transition-colors ${dark ? "bg-neutral-950" : "bg-[#FAFAF8]"}`}>
       {/* Header */}
       <div
         className={`sticky top-0 z-10 border-b px-3 py-3 backdrop-blur transition-colors sm:px-8 sm:py-4 ${

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { X, Upload, Download, Camera, Image as ImageIcon, Sparkles } from "lucide-react";
-import { tryOnOutfit, TryOnOutfitProgress } from "@/services/tryon";
+import { tryOnOutfit, TryOnProgress } from "@/services/tryon";
 
 interface OutfitTryOnModalProps {
   productIds: number[];
@@ -22,7 +22,7 @@ export default function OutfitTryOnModal({
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [showUploadOptions, setShowUploadOptions] = useState(false);
-  const [progress, setProgress] = useState<TryOnOutfitProgress | null>(null);
+  const [progress, setProgress] = useState<TryOnProgress | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -134,7 +134,29 @@ export default function OutfitTryOnModal({
             </p>
           </div>
 
-          {!resultUrl && (
+          {!resultUrl && loading && (
+            <div className="flex flex-col items-center gap-4 py-4">
+              {preview && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={preview}
+                  alt="پیش‌نمایش"
+                  className="h-28 w-28 rounded-xl object-cover border border-neutral-200 dark:border-neutral-700"
+                />
+              )}
+              <div className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-800/60 dark:to-neutral-900/60 p-3 h-11 flex items-center justify-center">
+                <p
+                  key={progress ?? "preparing"}
+                  className="text-[12px] leading-5 text-center truncate w-full font-semibold animate-pulse"
+                  style={{ color: "#0F766E" }}
+                >
+                  {progress || "در حال آماده‌سازی..."}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!resultUrl && !loading && (
             <>
               {/* Upload area */}
               <div
@@ -228,40 +250,8 @@ export default function OutfitTryOnModal({
                 disabled={!file || loading}
                 className="flex items-center justify-center gap-2 rounded-full bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-2.5 text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition"
               >
-                {loading ? "در حال ساخت تصویر..." : "بزن بریم"}
+                بزن بریم
               </button>
-
-              {loading && (
-                <div className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-gradient-to-b from-neutral-50 to-white dark:from-neutral-800/60 dark:to-neutral-900/60 p-3 flex flex-col gap-1.5 max-h-40 overflow-y-auto">
-                  {progress && progress.logs.length > 0 ? (
-                    progress.logs.map((line, idx) => {
-                      const isLast = idx === progress.logs.length - 1;
-                      const isDone = line.startsWith("✅") || line.startsWith("✨") || line.startsWith("🎉");
-                      const isError = line.startsWith("❌");
-                      return (
-                        <p
-                          key={idx}
-                          className={`text-[11px] leading-5 transition-opacity ${
-                            isError
-                              ? "text-red-500 font-semibold"
-                              : isDone
-                              ? "text-emerald-600 dark:text-emerald-400 font-medium"
-                              : isLast
-                              ? "text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500 font-semibold animate-pulse"
-                              : "text-neutral-400 dark:text-neutral-500"
-                          }`}
-                        >
-                          {line}
-                        </p>
-                      );
-                    })
-                  ) : (
-                    <p className="text-[11px] leading-5 text-transparent bg-clip-text bg-gradient-to-l from-fuchsia-500 via-violet-500 to-sky-500 font-semibold animate-pulse">
-                      ✨ در حال آماده‌سازی...
-                    </p>
-                  )}
-                </div>
-              )}
             </>
           )}
 
