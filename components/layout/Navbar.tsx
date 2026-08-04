@@ -84,15 +84,28 @@ export default function Navbar() {
             <Search size={16} className="sm:hidden" />
             <Search size={18} className="hidden sm:block" />
           </button>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="جستجو"
-            className={`flex-1 min-w-0 w-full bg-transparent text-xs sm:text-sm outline-none ${
-              dark ? "text-white placeholder:text-neutral-500" : "text-neutral-900 placeholder:text-neutral-400"
-            }`}
-          />
+          <div className="relative flex-1 min-w-0">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className={`w-full min-w-0 bg-transparent text-xs sm:text-sm outline-none ${
+                dark ? "text-white" : "text-neutral-900"
+              }`}
+            />
+            {query.length === 0 && (
+              <span
+                className={`pointer-events-none absolute inset-y-0 right-0 flex items-center whitespace-nowrap text-xs sm:text-sm ${
+                  dark ? "text-neutral-500" : "text-neutral-400"
+                }`}
+              >
+                جستجو در{" "}
+                <span className={`mr-1 font-bold ${dark ? "text-white" : "text-black"}`}>
+                  Jest Agent
+                </span>
+              </span>
+            )}
+          </div>
         </form>
 
         {/* Actions */}
@@ -114,40 +127,37 @@ export default function Navbar() {
           {isLoggedIn ? (
             <Link
               href="/profile"
-              className={`flex items-center gap-2 h-9 sm:h-11 px-2.5 sm:px-4 rounded-full border text-xs sm:text-sm font-semibold transition-colors shrink-0 max-w-[140px] ${
+              className={`hidden sm:flex items-center gap-2 h-9 sm:h-11 px-2.5 sm:px-4 rounded-full border text-xs sm:text-sm font-semibold transition-colors shrink-0 max-w-[140px] ${
                 dark
                   ? "border-neutral-700 text-neutral-200 hover:bg-neutral-800"
                   : "border-neutral-200 text-neutral-700 hover:bg-neutral-50"
               }`}
             >
-              <User size={16} className="sm:hidden shrink-0" />
-              <User size={18} className="hidden sm:block shrink-0" />
+              <User size={18} className="shrink-0" />
               <span className="hidden lg:block truncate">{user?.fullName}</span>
             </Link>
           ) : (
             <button
               onClick={handleLoginClick}
-              className={`flex items-center gap-2 h-9 sm:h-11 px-2.5 sm:px-4 rounded-full border text-xs sm:text-sm font-semibold transition-colors shrink-0 ${
+              className={`hidden sm:flex items-center gap-2 h-9 sm:h-11 px-2.5 sm:px-4 rounded-full border text-xs sm:text-sm font-semibold transition-colors shrink-0 ${
                 dark
                   ? "border-neutral-700 text-neutral-200 hover:bg-neutral-800"
                   : "border-neutral-200 text-neutral-700 hover:bg-neutral-50"
               }`}
             >
-              <User size={16} className="sm:hidden" />
-              <User size={18} className="hidden sm:block" />
+              <User size={18} />
               <span className="hidden lg:block">ورود</span>
             </button>
           )}
 
           <Link
             href="/cart"
-            className={`relative w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center transition-colors shrink-0 ${
+            className={`hidden sm:flex relative w-9 h-9 sm:w-11 sm:h-11 rounded-full items-center justify-center transition-colors shrink-0 ${
               dark ? "text-neutral-200 hover:bg-neutral-800" : "text-neutral-700 hover:bg-neutral-100"
             }`}
             aria-label="سبد خرید"
           >
-            <ShoppingBag size={18} className="sm:hidden" />
-            <ShoppingBag size={20} className="hidden sm:block" />
+            <ShoppingBag size={20} />
             {unseenCount > 0 && (
               <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                 {unseenCount > 9 ? "9+" : unseenCount}
@@ -170,7 +180,9 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative h-11 flex items-center text-sm font-medium transition-colors whitespace-nowrap group ${
+                className={`relative h-11 items-center text-sm font-medium transition-colors whitespace-nowrap group ${
+                  link.href === "/" ? "flex" : "hidden sm:flex"
+                } ${
                   isActive
                     ? dark
                       ? "text-white font-bold"
