@@ -6,8 +6,7 @@ import { RotateCcw, Sparkles } from "lucide-react";
 import { sendMessage, ChatHistoryItem } from "@/services/chat";
 import { getProduct } from "@/services/api";
 import { useTheme } from "@/components/theme/ThemeProvider";
-import TryOnModal from "@/components/tryon/TryOnModal";
-import OutfitTryOnModal from "@/components/tryon/OutfitTryOnModal";
+import { useTryOnJob } from "@/context/TryOnJobContext";
 import StyleQuizModal, {
   StyleQuizAnswers,
 } from "@/components/chat/StyleQuizModal";
@@ -345,6 +344,7 @@ function ChatPageContent() {
   const dark = theme === "dark";
   const searchParams = useSearchParams();
   const styleProductId = searchParams.get("productId");
+  const { launchSingle, launchOutfit } = useTryOnJob();
 
   // فقط یک بار موقع اولین رندر، گفتگوی ذخیره‌شده‌ی قبلی (اگه بود) رو می‌خونیم
   const persistedRef = useRef<PersistedChatState | null>(loadPersistedChat());
@@ -354,11 +354,6 @@ function ChatPageContent() {
   );
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [tryOnProduct, setTryOnProduct] = useState<Product | null>(null);
-  const [outfitTryOn, setOutfitTryOn] = useState<{
-    productIds: number[];
-    titles: string[];
-  } | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -402,8 +397,6 @@ function ChatPageContent() {
     setMessages([]);
     setMessage("");
     setLoading(false);
-    setTryOnProduct(null);
-    setOutfitTryOn(null);
     setStyleProfile({});
     setQuizOpen(false);
     setQuizInitialAnswers({});
@@ -794,14 +787,21 @@ function ChatPageContent() {
                   {m.products && m.products.length > 0 && (
                     <div className="-mx-1 flex gap-4 overflow-x-auto px-1 pb-1">
                       {m.products.map((p) => (
-                        <ProductTile key={p.id} product={p} dark={dark} onTryOn={setTryOnProduct} />
+                        <ProductTile
+                          key={p.id}
+                          product={p}
+                          dark={dark}
+                          onTryOn={(product) => launchSingle(product.id, product.title)}
+                        />
                       ))}
                     </div>
                   )}
 
                   {m.outfitCombo && (
                     <button
-                      onClick={() => setOutfitTryOn(m.outfitCombo!)}
+                      onClick={() =>
+                        launchOutfit(m.outfitCombo!.productIds, m.outfitCombo!.titles)
+                      }
                       className="self-start flex items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-l from-purple-600 to-fuchsia-500 shadow-md transition hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
                     >
                       <Sparkles size={13} />
@@ -912,22 +912,6 @@ function ChatPageContent() {
           </p>
         </div>
       </div>
-
-      {tryOnProduct && (
-        <TryOnModal
-          productId={tryOnProduct.id}
-          productTitle={tryOnProduct.title}
-          onClose={() => setTryOnProduct(null)}
-        />
-      )}
-
-      {outfitTryOn && (
-        <OutfitTryOnModal
-          productIds={outfitTryOn.productIds}
-          titles={outfitTryOn.titles}
-          onClose={() => setOutfitTryOn(null)}
-        />
-      )}
 
       {quizOpen && (
         <StyleQuizModal

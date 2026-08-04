@@ -157,13 +157,14 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ردیف دوم: منوی لینک‌ها */}
+      {/* ردیف دوم: منوی لینک‌ها — عرضش به‌اندازه‌ی خودِ لینک‌هاست تا فضای
+          خالی و بی‌مصرف بعد از آخرین لینک ایجاد نشه */}
       <div className={`border-t ${dark ? "border-neutral-800" : "border-neutral-100"}`}>
-        <div
-          className="max-w-7xl mx-auto h-11 flex items-center justify-start gap-5 sm:gap-8 overflow-x-auto"
-          style={{ paddingRight: "16px", paddingLeft: "16px" }}
-        >
-          {navLinks.map((link) => {
+        <div className="max-w-7xl mx-auto px-4">
+          <div
+            className="w-fit flex items-center h-11 gap-5 sm:gap-8 overflow-x-auto"
+          >
+            {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
@@ -187,7 +188,8 @@ export default function Navbar() {
                 />
               </Link>
             );
-          })}
+            })}
+          </div>
         </div>
       </div>
     </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, ThemeScript } from "@/components/theme/ThemeProvider";
 import { CartProvider } from "@/context/CartContext";
+import { TryOnJobProvider } from "@/context/TryOnJobContext";
 import ConditionalChrome from "@/components/layout/ConditionalChrome";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body className="bg-white text-neutral-900 overflow-x-hidden antialiased dark:bg-neutral-950 dark:text-neutral-100 transition-colors">
         <ThemeProvider>
           <CartProvider>
-            <ConditionalChrome>{children}</ConditionalChrome>
+            <TryOnJobProvider>
+              <ConditionalChrome>{children}</ConditionalChrome>
+            </TryOnJobProvider>
           </CartProvider>
         </ThemeProvider>
       </body>
