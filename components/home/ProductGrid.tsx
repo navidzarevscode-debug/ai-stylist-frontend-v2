@@ -227,8 +227,8 @@ function AIActionCards() {
           href="/chat"
           className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
-          <div className="relative z-10 min-w-0">
-            <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
+          <div className="relative z-10 min-w-0 flex-1 pl-1">
+            <h3 className="text-[13px] font-extrabold leading-5 sm:text-xl sm:leading-7">
               نمی‌دونی چی بپوشی؟
             </h3>
 
@@ -242,20 +242,22 @@ function AIActionCards() {
             </span>
           </div>
 
-          <img
-            src="/product/orange.png"
-            alt=""
-            aria-hidden="true"
-            className="relative z-10 h-[90%] w-auto shrink-0 object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%]"
-          />
+          <div className="relative z-10 flex h-full w-[34%] shrink-0 items-center justify-center sm:w-auto">
+            <img
+              src="/product/orange.png"
+              alt=""
+              aria-hidden="true"
+              className="h-[78%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+            />
+          </div>
         </Link>
 
         <Link
           href="/products"
           className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
-          <div className="relative z-10 min-w-0">
-            <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
+          <div className="relative z-10 min-w-0 flex-1 pl-1">
+            <h3 className="text-[13px] font-extrabold leading-5 sm:text-xl sm:leading-7">
               حوصله نداری بیای مغازه؟
             </h3>
 
@@ -269,12 +271,14 @@ function AIActionCards() {
             </span>
           </div>
 
-          <img
-            src="/product/pink.png"
-            alt=""
-            aria-hidden="true"
-            className="relative z-10 h-[90%] w-auto shrink-0 object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%]"
-          />
+          <div className="relative z-10 flex h-full w-[34%] shrink-0 items-center justify-center sm:w-auto">
+            <img
+              src="/product/pink.png"
+              alt=""
+              aria-hidden="true"
+              className="h-[78%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+            />
+          </div>
         </Link>
       </div>
     </section>

@@ -183,10 +183,16 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* شماره تلفن */}
+        {/* شماره تلفن / وضعیت ورود */}
         <div className="flex items-center justify-center gap-2 text-sm text-neutral-500 mb-6 sm:mb-8">
-          <Phone size={14} />
-          <span dir="ltr">{user ? user.phone : "وارد نشده‌اید"}</span>
+          {user ? (
+            <>
+              <Phone size={14} />
+              <span dir="ltr">{user.phone}</span>
+            </>
+          ) : (
+            <span>برای دیدن پروفایل، وارد حساب کاربری‌تان شوید</span>
+          )}
         </div>
 
         {/* دکمه‌ها */}
@@ -297,7 +303,7 @@ export default function ProfilePage() {
           ) : (
             <button
               onClick={handleLoginClick}
-              className="w-full flex items-center justify-center gap-2 rounded-xl border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-200 py-3 text-sm font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 transition"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 py-3 text-sm font-medium hover:opacity-90 transition shadow-sm"
             >
               <LogIn size={16} />
               ورود به حساب کاربری

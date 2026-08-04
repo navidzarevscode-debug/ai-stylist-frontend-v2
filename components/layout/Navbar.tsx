@@ -167,9 +167,9 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ردیف دوم: منوی لینک‌ها — عرضش به‌اندازه‌ی خودِ لینک‌هاست تا فضای
-          خالی و بی‌مصرف بعد از آخرین لینک ایجاد نشه */}
-      <div className={`border-t ${dark ? "border-neutral-800" : "border-neutral-100"}`}>
+      {/* ردیف دوم: منوی لینک‌ها — فقط توی دسکتاپ نشون داده می‌شه، چون توی
+          موبایل همه‌ی این لینک‌ها توی نوار پایین هستن */}
+      <div className={`hidden sm:block border-t ${dark ? "border-neutral-800" : "border-neutral-100"}`}>
         <div className="max-w-7xl mx-auto px-4">
           <div
             className="w-fit flex items-center h-11 gap-5 sm:gap-8"
@@ -180,9 +180,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative h-11 items-center text-sm font-medium transition-colors whitespace-nowrap group ${
-                  link.href === "/" ? "flex" : "hidden sm:flex"
-                } ${
+                className={`relative h-11 flex items-center text-sm font-medium transition-colors whitespace-nowrap group ${
                   isActive
                     ? dark
                       ? "text-white font-bold"
