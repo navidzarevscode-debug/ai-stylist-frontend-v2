@@ -6,8 +6,6 @@ import {
   Snowflake,
   Sun,
   Briefcase,
-  Wand2,
-  Camera,
   type LucideIcon,
 } from "lucide-react";
 import ProductCard from "./ProductCard";
@@ -229,15 +227,14 @@ function AIActionCards() {
           href="/chat"
           className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
-          <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
-          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+          <img
+            src="/product/orange.png"
+            alt=""
+            aria-hidden="true"
+            className="relative z-10 h-16 w-16 shrink-0 object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] sm:h-24 sm:w-24"
+          />
 
-          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-14 sm:w-14 sm:rounded-2xl">
-            <Wand2 size={20} className="sm:hidden" />
-            <Wand2 size={24} className="hidden sm:block" />
-          </span>
-
-          <div className="relative min-w-0 flex-1">
+          <div className="relative z-10 min-w-0 flex-1">
             <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
               نمی‌دونی چی بپوشی؟
             </h3>
@@ -257,15 +254,14 @@ function AIActionCards() {
           href="/products"
           className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
-          <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
-          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+          <img
+            src="/product/pink.png"
+            alt=""
+            aria-hidden="true"
+            className="relative z-10 h-16 w-16 shrink-0 object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] sm:h-24 sm:w-24"
+          />
 
-          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-14 sm:w-14 sm:rounded-2xl">
-            <Camera size={20} className="sm:hidden" />
-            <Camera size={24} className="hidden sm:block" />
-          </span>
-
-          <div className="relative min-w-0 flex-1">
+          <div className="relative z-10 min-w-0 flex-1">
             <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
               حوصله نداری بیای مغازه؟
             </h3>
