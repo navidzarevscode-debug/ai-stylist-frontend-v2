@@ -329,8 +329,8 @@ function ProductTile({
 
       <button
         onClick={() => onTryOn(product)}
-        className="flex items-center gap-1 text-[10px] font-bold rounded-full px-2.5 py-1.5 text-white shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-        style={{ backgroundColor: "#0F766E" }}
+        className="flex items-center gap-1 text-[10px] font-bold rounded-lg px-2.5 py-1.5 text-white shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
+        style={{ backgroundColor: "#3f3f46" }}
       >
         <Sparkles size={11} className="shrink-0" />
         رو خودت امتحان کن
@@ -807,7 +807,8 @@ function ChatPageContent() {
                       onClick={() =>
                         launchOutfit(m.outfitCombo!.productIds, m.outfitCombo!.titles)
                       }
-                      className="self-start flex items-center gap-1.5 rounded-full px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-l from-purple-600 to-fuchsia-500 shadow-md transition hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                      className="self-start flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-xs font-bold text-white shadow-md transition hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                      style={{ backgroundColor: "#27272a" }}
                     >
                       <Sparkles size={13} />
                       به نظرم این ست بهت میاد، رو خودت امتحانش کن

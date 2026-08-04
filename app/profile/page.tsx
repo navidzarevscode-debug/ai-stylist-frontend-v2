@@ -121,11 +121,12 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-16">
-      <div className="max-w-md mx-auto rounded-2xl border border-neutral-200 dark:border-neutral-800 p-8 text-center bg-white dark:bg-neutral-900">
+    <div className="max-w-2xl mx-auto px-4 py-10 sm:py-16">
+      <div className="max-w-md mx-auto rounded-2xl border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 text-center bg-white dark:bg-neutral-900 shadow-sm">
         {/* آواتار */}
-        <div className="mx-auto mb-4 w-20 h-20 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
-          <User size={36} className="text-neutral-500" />
+        <div className="mx-auto mb-4 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+          <User size={32} className="text-neutral-500 sm:hidden" />
+          <User size={36} className="text-neutral-500 hidden sm:block" />
         </div>
 
         {/* نام کاربر */}
@@ -183,7 +184,7 @@ export default function ProfilePage() {
         )}
 
         {/* شماره تلفن */}
-        <div className="flex items-center justify-center gap-2 text-sm text-neutral-500 mb-8">
+        <div className="flex items-center justify-center gap-2 text-sm text-neutral-500 mb-6 sm:mb-8">
           <Phone size={14} />
           <span dir="ltr">{user ? user.phone : "وارد نشده‌اید"}</span>
         </div>
