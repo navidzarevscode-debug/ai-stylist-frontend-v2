@@ -227,22 +227,22 @@ function AIActionCards() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-3 sm:gap-4">
         <Link
           href="/chat"
-          className="group relative flex aspect-[3/4] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 py-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-6 sm:py-8"
+          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
 
-          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-12 sm:w-12 sm:rounded-2xl">
+          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-14 sm:w-14 sm:rounded-2xl">
             <Wand2 size={20} className="sm:hidden" />
-            <Wand2 size={22} className="hidden sm:block" />
+            <Wand2 size={24} className="hidden sm:block" />
           </span>
 
-          <div className="relative mt-auto">
-            <h3 className="text-sm font-extrabold leading-6 sm:text-base sm:leading-6">
+          <div className="relative min-w-0 flex-1">
+            <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
               نمی‌دونی چی بپوشی؟
             </h3>
 
-            <p className="relative mt-1 text-[11px] leading-5 text-white/85 sm:mt-1.5 sm:text-xs sm:leading-5">
+            <p className="relative mt-1 hidden text-xs text-white/85 sm:block sm:text-sm sm:leading-6">
               پیشنهاد ست متناسب با استایل شما
             </p>
 
@@ -255,22 +255,22 @@ function AIActionCards() {
 
         <Link
           href="/products"
-          className="group relative flex aspect-[3/4] flex-col overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 py-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl sm:p-6 sm:py-8"
+          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
           <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
 
-          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-12 sm:w-12 sm:rounded-2xl">
+          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm sm:h-14 sm:w-14 sm:rounded-2xl">
             <Camera size={20} className="sm:hidden" />
-            <Camera size={22} className="hidden sm:block" />
+            <Camera size={24} className="hidden sm:block" />
           </span>
 
-          <div className="relative mt-auto">
-            <h3 className="text-sm font-extrabold leading-6 sm:text-base sm:leading-6">
+          <div className="relative min-w-0 flex-1">
+            <h3 className="text-sm font-extrabold leading-6 sm:text-xl sm:leading-7">
               حوصله نداری بیای مغازه؟
             </h3>
 
-            <p className="relative mt-1 text-[11px] leading-5 text-white/85 sm:mt-1.5 sm:text-xs sm:leading-5">
+            <p className="relative mt-1 hidden text-xs text-white/85 sm:block sm:text-sm sm:leading-6">
               لباست رو انتخاب کن و عکست رو آپلود کن
             </p>
 
