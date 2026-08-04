@@ -2,20 +2,36 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useTheme } from "@/components/theme/ThemeProvider";
+import { useAuth } from "@/lib/useAuth";
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalPrice, totalCount, markCartSeen } =
     useCart();
   const { theme } = useTheme();
   const dark = theme === "dark";
+  const { isLoggedIn, ready } = useAuth();
+  const router = useRouter();
+
+  // اگه کاربر مهمانه، بفرستش صفحه‌ی ثبت‌نام؛ بعد از ثبت‌نام/ورود همینجا
+  // (سبد خرید) برگرده.
+  useEffect(() => {
+    if (ready && !isLoggedIn) {
+      router.replace("/login?redirect=%2Fcart&mode=register");
+    }
+  }, [ready, isLoggedIn, router]);
 
   // با ورود به صفحه‌ی سبد خرید، عدد نوتیف روی آیکون سبد (بالای نوبار) صفر
   // می‌شه - دقیقاً مثل نوتیفیکیشن گوشی که با باز کردن اپ پاک می‌شه.
   useEffect(() => {
     markCartSeen();
   }, [markCartSeen]);
+
+  if (!ready || !isLoggedIn) {
+    return null;
+  }
 
   if (items.length === 0) {
     return (
@@ -47,7 +63,10 @@ export default function CartPage() {
               dark ? "border-neutral-800" : "border-neutral-100"
             }`}
           >
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+            <Link
+              href={`/products/${item.id}`}
+              className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800"
+            >
               {item.image ? (
                 <img
                   src={item.image}
@@ -55,15 +74,17 @@ export default function CartPage() {
                   className="h-full w-full object-contain"
                 />
               ) : null}
-            </div>
+            </Link>
 
             <div className="flex-1 min-w-0">
-              <p className="text-xs sm:text-sm font-medium line-clamp-2 text-neutral-800 dark:text-neutral-200">
-                {item.name}
-              </p>
-              <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
-                {item.price.toLocaleString()} تومان
-              </p>
+              <Link href={`/products/${item.id}`} className="block hover:opacity-80 transition">
+                <p className="text-xs sm:text-sm font-medium line-clamp-2 text-neutral-800 dark:text-neutral-200">
+                  {item.name}
+                </p>
+                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+                  {item.price.toLocaleString()} تومان
+                </p>
+              </Link>
 
               <div className="flex items-center gap-2 mt-2">
                 <button

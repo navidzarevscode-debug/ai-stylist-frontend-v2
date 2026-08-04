@@ -330,7 +330,7 @@ function ProductTile({
       <button
         onClick={() => onTryOn(product)}
         className="flex items-center gap-1 text-[10px] font-bold rounded-lg px-2.5 py-1.5 text-white shadow-sm transition hover:shadow-md hover:-translate-y-0.5 active:translate-y-0"
-        style={{ backgroundColor: "#3f3f46" }}
+        style={{ backgroundColor: "#27272a" }}
       >
         <Sparkles size={11} className="shrink-0" />
         رو خودت امتحان کن

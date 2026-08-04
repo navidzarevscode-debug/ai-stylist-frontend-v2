@@ -53,8 +53,8 @@ export default function MobileBottomNav() {
               className={`relative flex flex-1 flex-col items-center justify-center gap-1 rounded-2xl py-2 text-[11px] font-medium transition-colors ${
                 isActive
                   ? dark
-                    ? "bg-white text-neutral-900"
-                    : "bg-neutral-900 text-white"
+                    ? "text-white font-bold"
+                    : "text-neutral-900 font-bold"
                   : dark
                   ? "text-neutral-400"
                   : "text-neutral-500"
@@ -79,8 +79,8 @@ export default function MobileBottomNav() {
           className={`relative flex flex-1 flex-col items-center justify-center gap-1 rounded-2xl py-2 text-[11px] font-medium transition-colors ${
             accountActive
               ? dark
-                ? "bg-white text-neutral-900"
-                : "bg-neutral-900 text-white"
+                ? "text-white font-bold"
+                : "text-neutral-900 font-bold"
               : dark
               ? "text-neutral-400"
               : "text-neutral-500"

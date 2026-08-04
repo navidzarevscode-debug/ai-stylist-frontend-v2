@@ -225,58 +225,60 @@ function AIActionCards() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-3 sm:gap-4">
         <Link
           href="/chat"
-          className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
+          className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-3 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <div className="relative z-10 min-w-0 flex-1 pl-1">
-            <h3 className="text-[13px] font-extrabold leading-5 sm:text-xl sm:leading-7">
-              نمی‌دونی چی بپوشی؟
+            <h3 className="text-[12px] font-extrabold leading-4 sm:text-xl sm:leading-7">
+              <span className="block sm:inline">نمی‌دونی</span>{" "}
+              <span className="block sm:inline">چی بپوشی؟</span>
             </h3>
 
             <p className="relative mt-1 hidden text-xs text-white/85 sm:block sm:text-sm sm:leading-6">
               پیشنهاد ست متناسب با استایل شما
             </p>
 
-            <span className="relative mt-2 inline-flex items-center gap-1 text-xs font-bold sm:mt-3 sm:text-sm">
+            <span className="relative mt-1.5 inline-flex items-center gap-1 text-[11px] font-bold sm:mt-3 sm:text-sm">
               شروع کن
-              <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
+              <ArrowLeft size={12} className="transition-transform group-hover:-translate-x-1" />
             </span>
           </div>
 
-          <div className="relative z-10 flex h-full w-[34%] shrink-0 items-center justify-center sm:w-auto">
+          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center sm:w-auto">
             <img
               src="/product/orange.png"
               alt=""
               aria-hidden="true"
-              className="h-[78%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+              className="h-[96%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
             />
           </div>
         </Link>
 
         <Link
           href="/products"
-          className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
+          className="group relative flex aspect-[13/9] flex-row items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-3 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <div className="relative z-10 min-w-0 flex-1 pl-1">
-            <h3 className="text-[13px] font-extrabold leading-5 sm:text-xl sm:leading-7">
-              حوصله نداری بیای مغازه؟
+            <h3 className="text-[12px] font-extrabold leading-4 sm:text-xl sm:leading-7">
+              <span className="block sm:inline">حوصله نداری</span>{" "}
+              <span className="block sm:inline">بیای مغازه؟</span>
             </h3>
 
             <p className="relative mt-1 hidden text-xs text-white/85 sm:block sm:text-sm sm:leading-6">
               لباست رو انتخاب کن و عکست رو آپلود کن
             </p>
 
-            <span className="relative mt-2 inline-flex items-center gap-1 text-xs font-bold sm:mt-3 sm:text-sm">
+            <span className="relative mt-1.5 inline-flex items-center gap-1 text-[11px] font-bold sm:mt-3 sm:text-sm">
               امتحان کن
-              <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
+              <ArrowLeft size={12} className="transition-transform group-hover:-translate-x-1" />
             </span>
           </div>
 
-          <div className="relative z-10 flex h-full w-[34%] shrink-0 items-center justify-center sm:w-auto">
+          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center sm:w-auto">
             <img
               src="/product/pink.png"
               alt=""
               aria-hidden="true"
-              className="h-[78%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+              className="h-[96%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
             />
           </div>
         </Link>
