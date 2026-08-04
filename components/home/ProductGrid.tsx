@@ -3,7 +3,11 @@ import {
   ArrowLeft,
   Dumbbell,
   PartyPopper,
+  Snowflake,
   Sun,
+  Briefcase,
+  Wand2,
+  Camera,
   type LucideIcon,
 } from "lucide-react";
 import ProductCard from "./ProductCard";
@@ -91,7 +95,9 @@ function FeaturedSection({
 type CategoryVariant =
   | "summer"
   | "party"
-  | "sport";
+  | "sport"
+  | "winter"
+  | "formal";
 
 type CategoryStyle = {
   icon: LucideIcon;
@@ -117,6 +123,16 @@ const CATEGORY_STYLES: Record<
     icon: Dumbbell,
     ring: "from-emerald-400/20 via-teal-300/10 to-transparent border-emerald-200 dark:border-emerald-900/40",
     chip: "bg-emerald-500 text-white",
+  },
+  winter: {
+    icon: Snowflake,
+    ring: "from-sky-400/20 via-blue-300/10 to-transparent border-sky-200 dark:border-sky-900/40",
+    chip: "bg-sky-500 text-white",
+  },
+  formal: {
+    icon: Briefcase,
+    ring: "from-slate-400/20 via-neutral-300/10 to-transparent border-slate-200 dark:border-slate-800/40",
+    chip: "bg-slate-700 text-white",
   },
 };
 
@@ -205,6 +221,66 @@ function CategoryBoxSection({
   );
 }
 
+function AIActionCards() {
+  return (
+    <section className="py-3 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-950 transition-colors">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 gap-3 sm:gap-4">
+        <Link
+          href="/chat"
+          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 sm:p-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+
+          <span className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+            <Wand2 size={20} />
+          </span>
+
+          <h3 className="relative mt-3 sm:mt-4 text-sm sm:text-base font-extrabold leading-6">
+            نمی‌دونی چی بپوشی؟
+            <br />
+            کلیک کن
+          </h3>
+
+          <p className="relative mt-1.5 text-[11px] sm:text-xs text-white/85 leading-5">
+            بهترین پیشنهادها با توجه به اطلاعات شخصی شما و ست‌هایی متناسب با جدیدترین‌های مد روز
+          </p>
+
+          <span className="relative mt-3 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold">
+            شروع کن
+            <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
+          </span>
+        </Link>
+
+        <Link
+          href="/products"
+          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 sm:p-6 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl"
+        >
+          <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-white/10 blur-xl transition-transform group-hover:scale-125" />
+          <div className="absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10 blur-2xl" />
+
+          <span className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+            <Camera size={20} />
+          </span>
+
+          <h3 className="relative mt-3 sm:mt-4 text-sm sm:text-base font-extrabold leading-6">
+            حوصله نداری بیای مغازه؟
+          </h3>
+
+          <p className="relative mt-1.5 text-[11px] sm:text-xs text-white/85 leading-5">
+            لباس رو تن خودت ببین؛ فقط کافیه لباست رو انتخاب کنی و عکست رو آپلود کنی
+          </p>
+
+          <span className="relative mt-3 inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold">
+            امتحان کن
+            <ArrowLeft size={13} className="transition-transform group-hover:-translate-x-1" />
+          </span>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 export default async function ProductGrid() {
   let products: ApiProduct[] = [];
 
@@ -247,6 +323,18 @@ export default async function ProductGrid() {
     )
     .slice(0, 10);
 
+  const winterProducts = products
+    .filter((product) =>
+      (product.season ?? "").includes("زمستان")
+    )
+    .slice(0, 10);
+
+  const formalProducts = products
+    .filter((product) =>
+      (product.occasion ?? "").includes("رسمی")
+    )
+    .slice(0, 10);
+
   return (
     <div className="space-y-3 pb-6">
       <FeaturedSection
@@ -264,12 +352,14 @@ export default async function ProductGrid() {
         href="/products?season=تابستان"
       />
 
+      <AIActionCards />
+
       <CategoryBoxSection
-        variant="party"
-        title="لباس‌های مخصوص مجالس"
-        subtitle="برای مهمونی و مناسبت‌های خاص"
-        products={partyProducts}
-        href="/products?occasion=مهمانی"
+        variant="winter"
+        title="لباس‌های زمستانی"
+        subtitle="گرم، شیک و مناسب سرما"
+        products={winterProducts}
+        href="/products?season=زمستان"
       />
 
       <CategoryBoxSection
@@ -278,6 +368,22 @@ export default async function ProductGrid() {
         subtitle="راحت و متناسب با فعالیت روزانه"
         products={sportProducts}
         href="/products?occasion=اسپرت"
+      />
+
+      <CategoryBoxSection
+        variant="formal"
+        title="لباس‌های رسمی"
+        subtitle="شیک و مناسب جلسات و مناسبت‌های مهم"
+        products={formalProducts}
+        href="/products?occasion=رسمی"
+      />
+
+      <CategoryBoxSection
+        variant="party"
+        title="لباس‌های مخصوص مجالس"
+        subtitle="برای مهمونی و مناسبت‌های خاص"
+        products={partyProducts}
+        href="/products?occasion=مهمانی"
       />
     </div>
   );
