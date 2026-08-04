@@ -1,16 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Heart } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "@/lib/useAuth";
-import {
-  ensureFavoritesLoaded,
-  isFavorite,
-  subscribeToFavoritesChanges,
-  toggleFavorite,
-} from "@/lib/favorites";
 
 type ProductCardProps = {
   id: number;
@@ -35,31 +25,6 @@ export default function ProductCard({
   brand,
   dark = false,
 }: ProductCardProps) {
-  const { user } = useAuth();
-  const router = useRouter();
-  const pathname = usePathname();
-  const [favorite, setFavorite] = useState(false);
-
-  useEffect(() => {
-    ensureFavoritesLoaded().then(() => setFavorite(isFavorite(id)));
-    const unsubscribe = subscribeToFavoritesChanges(() => {
-      setFavorite(isFavorite(id));
-    });
-    return unsubscribe;
-  }, [id]);
-
-  async function handleFavoriteClick(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!user) {
-      router.push(`/login?redirect=${encodeURIComponent(pathname || "/")}`);
-      return;
-    }
-
-    await toggleFavorite({ id, title, price, image, brand });
-  }
-
   return (
     <Link
       href={`/products/${id}`}
@@ -106,16 +71,6 @@ export default function ProductCard({
             {badge}
           </span>
         )}
-
-        <button
-          aria-label="افزودن به علاقه‌مندی‌ها"
-          onClick={handleFavoriteClick}
-          className={`absolute left-2 top-2 flex h-7 w-7 items-center justify-center rounded-full transition-colors shadow-sm ${
-            favorite ? "text-red-500" : "text-neutral-400 hover:text-red-500"
-          } ${dark ? "bg-white/90" : "bg-white/90 dark:bg-neutral-900/90"}`}
-        >
-          <Heart size={14} fill={favorite ? "currentColor" : "none"} />
-        </button>
       </div>
 
       {/* CONTENT */}

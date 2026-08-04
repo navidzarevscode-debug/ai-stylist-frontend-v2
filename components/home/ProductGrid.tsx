@@ -109,27 +109,27 @@ const CATEGORY_STYLES: Record<
 > = {
   summer: {
     icon: Sun,
-    ring: "from-amber-400/20 via-orange-300/10 to-transparent border-amber-200 dark:border-amber-900/40",
+    ring: "from-amber-50 via-orange-50 to-amber-50 dark:from-amber-950/25 dark:via-orange-950/15 dark:to-amber-950/25",
     chip: "bg-amber-500 text-white",
   },
   party: {
     icon: PartyPopper,
-    ring: "from-fuchsia-400/20 via-purple-300/10 to-transparent border-fuchsia-200 dark:border-fuchsia-900/40",
+    ring: "from-fuchsia-50 via-purple-50 to-fuchsia-50 dark:from-fuchsia-950/25 dark:via-purple-950/15 dark:to-fuchsia-950/25",
     chip: "bg-fuchsia-500 text-white",
   },
   sport: {
     icon: Dumbbell,
-    ring: "from-emerald-400/20 via-teal-300/10 to-transparent border-emerald-200 dark:border-emerald-900/40",
+    ring: "from-emerald-50 via-teal-50 to-emerald-50 dark:from-emerald-950/25 dark:via-teal-950/15 dark:to-emerald-950/25",
     chip: "bg-emerald-500 text-white",
   },
   winter: {
     icon: Snowflake,
-    ring: "from-sky-400/20 via-blue-300/10 to-transparent border-sky-200 dark:border-sky-900/40",
+    ring: "from-sky-50 via-blue-50 to-sky-50 dark:from-sky-950/25 dark:via-blue-950/15 dark:to-sky-950/25",
     chip: "bg-sky-500 text-white",
   },
   formal: {
     icon: Briefcase,
-    ring: "from-slate-400/20 via-neutral-300/10 to-transparent border-slate-200 dark:border-slate-800/40",
+    ring: "from-slate-100 via-neutral-50 to-slate-100 dark:from-slate-900/40 dark:via-neutral-900/20 dark:to-slate-900/40",
     chip: "bg-slate-700 text-white",
   },
 };
@@ -157,10 +157,10 @@ function CategoryBoxSection({
   const Icon = style.icon;
 
   return (
-    <section className="py-3 px-4 sm:px-6 lg:px-8 bg-neutral-50 dark:bg-neutral-950 transition-colors">
-      <div
-        className={`max-w-7xl mx-auto rounded-3xl border bg-gradient-to-br ${style.ring} bg-white dark:bg-neutral-900 p-4 sm:p-6 transition-colors`}
-      >
+    <section
+      className={`py-5 transition-colors bg-gradient-to-br ${style.ring}`}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <span
@@ -182,14 +182,14 @@ function CategoryBoxSection({
 
           <Link
             href={href}
-            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-200 text-neutral-600 hover:bg-neutral-50 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 transition-colors shrink-0"
+            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full border border-neutral-200 text-neutral-600 hover:bg-white dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 transition-colors shrink-0"
           >
             بیشتر ببین
             <ArrowLeft size={13} />
           </Link>
         </div>
 
-        <div className="flex gap-3 overflow-x-auto pb-1 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700">
+        <div className="flex gap-3 overflow-x-auto pb-3 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700">
           {products.map((product) => {
             const mainImage =
               product.images?.find(
@@ -243,12 +243,12 @@ function AIActionCards() {
             </span>
           </div>
 
-          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center sm:w-auto">
+          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center p-1.5 sm:w-[42%] sm:p-2">
             <img
               src="/product/orange.png"
               alt=""
               aria-hidden="true"
-              className="h-[96%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+              className="h-full w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105"
             />
           </div>
         </Link>
@@ -273,12 +273,12 @@ function AIActionCards() {
             </span>
           </div>
 
-          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center sm:w-auto">
+          <div className="relative z-10 flex h-full w-[46%] shrink-0 items-center justify-center p-1.5 sm:w-[42%] sm:p-2">
             <img
               src="/product/pink.png"
               alt=""
               aria-hidden="true"
-              className="h-[96%] w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105 sm:h-[90%] sm:w-auto"
+              className="h-full w-full object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.45)] transition-transform group-hover:scale-105"
             />
           </div>
         </Link>

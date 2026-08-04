@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getProduct, getImageUrl, type ApiProduct } from "@/services/api";
 import ProductGallery from "@/components/product/ProductGallery";
+import ProductFavoriteButton from "@/components/product/ProductFavoriteButton";
 import TryOnTrigger from "@/components/tryon/TryOnTrigger";
 import StyleMatchTrigger from "@/components/StyleMatchTrigger";
 import AddToCartButton from "@/components/product/AddToCartButton";
@@ -64,8 +65,30 @@ export default async function ProductDetailPage({
 
         <div className="flex flex-col lg:flex-row lg:gap-12">
           {/* Gallery — full-bleed on mobile, right column on desktop */}
-          <div className="lg:w-1/2 lg:shrink-0">
+          <div className="relative lg:w-1/2 lg:shrink-0">
             <ProductGallery images={images} alt={product.name} />
+
+            {/* موبایل: کنار دکمه بازگشت (ضربدر) */}
+            <div className="sm:hidden fixed top-[70px] left-14 z-40">
+              <ProductFavoriteButton
+                id={product.id}
+                title={product.name}
+                price={`${product.price.toLocaleString()} تومان`}
+                image={mainImage?.url}
+                brand={product.brand}
+              />
+            </div>
+
+            {/* دسکتاپ/لپ‌تاپ: همون گوشه‌ای که در موبایل دکمه بازگشت هست */}
+            <div className="hidden sm:block absolute top-3 left-3 z-10">
+              <ProductFavoriteButton
+                id={product.id}
+                title={product.name}
+                price={`${product.price.toLocaleString()} تومان`}
+                image={mainImage?.url}
+                brand={product.brand}
+              />
+            </div>
 
             <div className="px-4 pt-3 lg:px-0 flex flex-col gap-2">
               <TryOnTrigger productId={product.id} productTitle={product.name} />
