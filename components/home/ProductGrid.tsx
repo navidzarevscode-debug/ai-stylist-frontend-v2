@@ -225,13 +225,13 @@ function AIActionCards() {
       <div className="max-w-7xl mx-auto grid grid-cols-2 gap-3 sm:gap-4">
         <Link
           href="/chat"
-          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
+          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-visible rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-pink-500 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <img
             src="/product/orange.png"
             alt=""
             aria-hidden="true"
-            className="relative z-10 h-16 w-16 shrink-0 object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] sm:h-24 sm:w-24"
+            className="relative z-20 -my-6 -ms-1 h-28 w-28 shrink-0 object-contain drop-shadow-[0_18px_22px_rgba(0,0,0,0.5)] transition-transform group-hover:scale-105 sm:h-44 sm:w-44 sm:-my-9"
           />
 
           <div className="relative z-10 min-w-0 flex-1">
@@ -252,13 +252,13 @@ function AIActionCards() {
 
         <Link
           href="/products"
-          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
+          className="group relative flex aspect-[13/9] flex-row items-center gap-3 overflow-visible rounded-2xl bg-gradient-to-br from-purple-600 via-fuchsia-600 to-indigo-600 p-4 text-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl sm:aspect-[933/379] sm:rounded-3xl sm:p-6"
         >
           <img
             src="/product/pink.png"
             alt=""
             aria-hidden="true"
-            className="relative z-10 h-16 w-16 shrink-0 object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.45)] sm:h-24 sm:w-24"
+            className="relative z-20 -my-6 -ms-1 h-28 w-28 shrink-0 object-contain drop-shadow-[0_18px_22px_rgba(0,0,0,0.5)] transition-transform group-hover:scale-105 sm:h-44 sm:w-44 sm:-my-9"
           />
 
           <div className="relative z-10 min-w-0 flex-1">
